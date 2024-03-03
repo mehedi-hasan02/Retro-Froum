@@ -23,10 +23,10 @@ const display = (allData) => {
         const classes = ['border', 'border-[#797DFC]', 'rounded-3xl', 'p-10', 'space-y-3', 'w-full', 'lg:w-[90%]', 'flex-1'];
         div.classList.add(...classes);
         div.innerHTML = `
-        <div class="flex gap-8">
+        <div class="flex gap-8 flex-col lg:flex-row">
             <div class="indicator">
                 <span class="indicator-item badge  ${element.isActive?"bg-green-500":"bg-red-500"}"></span>
-                <div class="grid w-20 h-20 bg-base-300 place-items-center rounded-xl"><img src="${element.image}" alt="AI Tool" /></div>
+                <div class="grid w-20 h-20 bg-base-300 place-items-center"><img class="rounded-2xl" src="${element.image}" alt="AI Tool" /></div>
             </div>
             <div class="space-y-3">
                 <div class="flex gap-6">
@@ -41,7 +41,7 @@ const display = (allData) => {
                         prerogative</p>
                 </div>
                 <hr>
-                <div class="flex justify-between">
+                <div class="flex justify-between items-center">
                     <div class="flex gap-5">
                         <p><i class="fa-solid fa-envelope-open-text mr-2"></i>560</p>
                         <p><i class="fa-regular fa-eye mr-2"></i>1,568</p>
@@ -112,23 +112,28 @@ const displayLatestPost = (allPost)=>{
     allPost.forEach(ele=>{
         const div = document.createElement("div");
 
-        const classes = ['card', 'bg-base-100', 'shadow-xl', 'p-5', 'border', 'border-black'];
+        const classes = ['card', 'bg-base-100', 'shadow-xl', 'p-6', 'border', 'border-black'];
         div.classList.add(...classes);
 
         div.innerHTML = `
             <figure><img src="${ele.cover_image}"
             alt="Shoes" /></figure>
-            <div class=" ">
-                <p><i class="fa-solid fa-calendar-days"></i>${ele.author?.posted_date || 'No publish date'}</p>
-                <h4>${ele.title}</h4>
-                <p>${ele.description}</p>
+            <div class=" space-y-3 mt-5">
+                <p><i class="fa-solid fa-calendar-days mr-2 text-[#858181]"></i>${ele.author?.posted_date || 'No publish date'}</p>
+                <h4 class="font-extrabold ">${ele.title}</h4>
+                <p class="text-[#858181]">${ele.description}</p>
                 <div class="card-actions">
                     <div>
 
                     </div>
-                    <div>
-                        <h4>${ele.author.name}</h4>
-                        <p>${ele.author?.designation || 'Unknown'}</p>
+                    <div class="flex gap-2 mt-4">
+                        <div class="w-[45px] h-[45px] rounded-2xl">
+                            <img class="rounded-full" src="${ele.profile_image}" alt="AI Tool" />
+                        </div>
+                        <div>
+                            <h4 class="font-bold">${ele.author.name}</h4>
+                            <p class="text-[#858181]">${ele.author?.designation || 'Unknown'}</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -161,9 +166,13 @@ const toggleLoading =(isLoading)=>{
     
     if(isLoading)
     {
-        loadingSpinner.classList.remove('hidden')
+        loadingSpinner.classList.remove('hidden');
+        
+        
     }else{
-        loadingSpinner.classList.add('hidden');
+        setTimeout(() => {
+            loadingSpinner.classList.add('hidden');
+        }, 2000);
     }
 }
 
