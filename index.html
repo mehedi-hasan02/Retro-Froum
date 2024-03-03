@@ -79,8 +79,8 @@
                         Forum</h2>
                     <p class="text-xl">Share your favorite opinion and win and wp forum coffee mug!</p>
                     <label class="input input-bordered flex items-center gap-2 rounded-3xl">
-                        <input type="text" class="grow" placeholder="Search here anything" />
-                        <span class="badge badge-info h-10 w-28 bg-[#797DFC] text-white">Search</span>
+                        <input id="search-field" type="text" class="grow text-black" placeholder="Search here anything" />
+                        <button onclick="handelSearch()" class="badge badge-info h-10 w-28 bg-[#797DFC] text-white">Search</button>
                     </label>
                 </div>
                 <div class="card-actions   flex-1 flex justify-center items-center">
@@ -115,9 +115,17 @@
                     directly within the app. The integrated testing
                     features allow for a streamlined .</p>
             </div>
-            <div class="flex flex-col lg:flex-row mt-16">
 
-                <div id="discuss-container" class="space-y-10 w-[70%]">
+            <!-- loading -->
+            <div id="loading-spinner" class="text-center mt-10 hidden">
+                <span class="loading loading-dots loading-lg"></span>
+            </div>
+
+
+            <!--  -->
+            <div class="flex flex-col lg:flex-row gap-10 mt-16">
+
+                <div id="discuss-container" class="space-y-10 w-full lg:w-[70%]">
 
                     <!-- <div class="flex gap-6">
                         <p># Music</p>
@@ -143,10 +151,10 @@
                     </div> -->
                 </div>
 
-                <div class="bg-[#12132D0D]  lg:w-[30%]  hidden lg:block rounded-2xl p-10">
+                <div class="bg-[#12132D0D]  lg:w-[30%] lg:block rounded-2xl p-10">
                     <div class="flex justify-between">
                         <h4>Title</h4>
-                        <p>Mark as read (<span></span>)</p>
+                        <p>Mark as read (<span id="count"></span>)</p>
 
                     </div>
                     <div id="reading-container">
@@ -154,16 +162,6 @@
                     </div>
                 </div>
 
-            </div>
-            <div class="bg-[#12132D0D]  lg:w-[30%] block lg:hidden justify-between mt-10 rounded-2xl p-10">
-                <div class="flex justify-between">
-                    <h4>Title</h4>
-                    <p>Mark as read (<span></span>)</p>
-
-                </div>
-                <div id="reading-container">
-
-                </div>
             </div>
 
             <div class="flex bg-[#12132D] text-white font-mulish p-10 mt-28 rounded-3xl">
@@ -185,7 +183,7 @@
                 <p class="w-[45%] text-[#858181] mx-auto mt-6">Yes, you can run unit tests and view the results directly
                     within the app. The integrated testing features allow for a streamlined .</p>
             </div>
-            <div id="post-container" class="grid grid-cols-3">
+            <div id="post-container" class="grid grid-rows-1 lg:grid-cols-3 gap-5 lg:gap-10">
                 <!-- <div> -->
                     <!-- <figure><img src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
                             alt="Shoes" /></figure>
@@ -208,7 +206,7 @@
         </section>
     </main>
 
-    <footer class="footer footer-center p-10 bg-[#12132D0D] text-black">
+    <footer class="footer footer-center p-10 bg-[#12132D0D] text-black mt-20">
         <aside class="space-y-3">
             <h1 class="text-3xl font-extrabold font-mulish">ReTro</h1>
             <p class="w-[70%] text-[#858181]">Contrary to popular belief, Lorem Ipsum is not simply random text. It has

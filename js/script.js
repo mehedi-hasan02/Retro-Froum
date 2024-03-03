@@ -1,5 +1,8 @@
+let count = 1;
+
 const loadAll = async () => {
     const res = await fetch('https://openapi.programming-hero.com/api/retro-forum/posts');
+    // const res = await fetch(`https://openapi.programming-hero.com/api/retro-forum/posts?category=${searchValue}`);
     const data = await res.json();
     // console.log(data);
     const allData = data.posts;
@@ -12,6 +15,8 @@ const display = (allData) => {
     // console.log(allData)
     const discuss = document.getElementById("discuss-container");
 
+    discuss.innerText = " ";
+
     allData.forEach(element => {
         // console.log(element.id);
         const div = document.createElement("div");
@@ -20,7 +25,7 @@ const display = (allData) => {
         div.innerHTML = `
         <div class="flex gap-8">
             <div class="indicator">
-                <span class="indicator-item badge badge-secondary"></span>
+                <span class="indicator-item badge  ${element.isActive?"bg-green-500":"bg-red-500"}"></span>
                 <div class="grid w-20 h-20 bg-base-300 place-items-center rounded-xl"><img src="${element.image}" alt="AI Tool" /></div>
             </div>
             <div class="space-y-3">
@@ -43,7 +48,7 @@ const display = (allData) => {
                         <p><i class="fa-regular fa-clock mr-2"></i>5 min</p>
                     </div>
                     <div>
-                    <button onclick="showDetails(${element.id})" class="w-8 h-8 bg-[#10B981] rounded-full"><i class="fa-solid fa-envelope text-white"></i></button>
+                    <button onclick="showDetails('${element.title}',${element.view_count})" class="w-8 h-8 bg-[#10B981] rounded-full"><i class="fa-solid fa-envelope text-white"></i></button>
                     </div>
                 </div>
             </div>
@@ -54,27 +59,41 @@ const display = (allData) => {
 
         discuss.appendChild(div);
     });
+
+    toggleLoading(false);
 }
 
 const handelShowDetails = (id) => {
     console.log(id);
 }
 
-const showDetails = async (id) => {
-    const res = await fetch('https://openapi.programming-hero.com/api/retro-forum/posts?category/${id}');
-    const data = await res.json();
-    const postDetails = data.posts;
-    console.log(postDetails);
+const showDetails = async (id,view) => {
     const readingContainer = document.getElementById("reading-container");
+    // const readingContainer2 = document.getElementById("reading-container2");
+    const countNumber = document.getElementById("count");
+    // const countNumber2 = document.getElementById("count2");
 
-    const p1 = document.createElement("p");
-        const p2 = document.createElement("p");
+    const classes = ['flex', 'justify-between','mt-2'];
 
-        p1.innerHTML = `<p>${postDetails.title}</p>`;
-        p2.innerHTML = `<p>${postDetails.view_count}</p>`;
+    const div = document.createElement("div");
 
-        readingContainer.appendChild(p1);
-        readingContainer.appendChild(p2);
+        div.classList.add(...classes);
+
+        div.innerHTML = `
+        <p>${id}</p>
+        <p>${view}</p>
+        `;
+
+        readingContainer.appendChild(div);
+        // readingContainer2.appendChild(div);
+        countNumber.innerHTML = `
+            <span>${count}</span>
+        `;
+        // countNumber2.innerHTML = `
+        //     <span>${count}</span>
+        // `;
+        console.log(countNumber.innerText)
+        count++;
 
 }
 
@@ -100,7 +119,7 @@ const displayLatestPost = (allPost)=>{
             <figure><img src="${ele.cover_image}"
             alt="Shoes" /></figure>
             <div class=" ">
-                <p><i class="fa-solid fa-calendar-days"></i>${ele.posted_date}</p>
+                <p><i class="fa-solid fa-calendar-days"></i>${ele.author?.posted_date || 'No publish date'}</p>
                 <h4>${ele.title}</h4>
                 <p>${ele.description}</p>
                 <div class="card-actions">
@@ -108,8 +127,8 @@ const displayLatestPost = (allPost)=>{
 
                     </div>
                     <div>
-                        <h4>Cameron Williamson</h4>
-                        <p>Unknown</p>
+                        <h4>${ele.author.name}</h4>
+                        <p>${ele.author?.designation || 'Unknown'}</p>
                     </div>
                 </div>
             </div>
@@ -118,9 +137,34 @@ const displayLatestPost = (allPost)=>{
         
         postContainer.appendChild(div);
     
-    });
+    });  
+}
 
+const searchElement = async(searchValue) =>{
+    const res = await fetch(`https://openapi.programming-hero.com/api/retro-forum/posts?category=${searchValue}`);
+    const data = await res.json();
+    // console.log(data);
+    const allData = data.posts;
+    display(allData);
+}
+
+const handelSearch = () =>{
+    toggleLoading(true);
+    const searchValue = document.getElementById("search-field").value;
+    searchElement(searchValue);
     
+    console.log(searchValue);
+}
+
+const toggleLoading =(isLoading)=>{
+    const loadingSpinner = document.getElementById("loading-spinner");
+    
+    if(isLoading)
+    {
+        loadingSpinner.classList.remove('hidden')
+    }else{
+        loadingSpinner.classList.add('hidden');
+    }
 }
 
 latestPost()
