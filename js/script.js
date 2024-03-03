@@ -5,7 +5,7 @@ const loadAll = async () => {
     const allData = data.posts;
     display(allData);
     // showDetails(allData);
-    console.log(allData);
+    // console.log(allData);
 }
 
 const display = (allData) => {
@@ -77,5 +77,52 @@ const showDetails = async (id) => {
         readingContainer.appendChild(p2);
 
 }
+
+const latestPost = async()=>{
+    const post = await fetch('https://openapi.programming-hero.com/api/retro-forum/latest-posts');
+    const allPost = await post.json();
+
+    displayLatestPost(allPost)
+
+    // console.log(allPost);
+}
+
+const displayLatestPost = (allPost)=>{
+    const postContainer = document.getElementById("post-container");
+
+    allPost.forEach(ele=>{
+        const div = document.createElement("div");
+
+        const classes = ['card', 'bg-base-100', 'shadow-xl', 'p-5', 'border', 'border-black'];
+        div.classList.add(...classes);
+
+        div.innerHTML = `
+            <figure><img src="${ele.cover_image}"
+            alt="Shoes" /></figure>
+            <div class=" ">
+                <p><i class="fa-solid fa-calendar-days"></i>${ele.posted_date}</p>
+                <h4>${ele.title}</h4>
+                <p>${ele.description}</p>
+                <div class="card-actions">
+                    <div>
+
+                    </div>
+                    <div>
+                        <h4>Cameron Williamson</h4>
+                        <p>Unknown</p>
+                    </div>
+                </div>
+            </div>
+
+        `;
+        
+        postContainer.appendChild(div);
+    
+    });
+
+    
+}
+
+latestPost()
 
 loadAll()
