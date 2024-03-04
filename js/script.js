@@ -1,11 +1,14 @@
 let count = 1;
 
+
 const loadAll = async () => {
+    
     const res = await fetch('https://openapi.programming-hero.com/api/retro-forum/posts');
     // const res = await fetch(`https://openapi.programming-hero.com/api/retro-forum/posts?category=${searchValue}`);
     const data = await res.json();
     // console.log(data);
     const allData = data.posts;
+     
     display(allData);
     // showDetails(allData);
     // console.log(allData);
@@ -16,46 +19,54 @@ const display = (allData) => {
     const discuss = document.getElementById("discuss-container");
 
     discuss.innerText = " ";
+    toggleLoading(true);
 
     allData.forEach(element => {
+       
         // console.log(element.id);
         const div = document.createElement("div");
-        const classes = ['border', 'border-[#797DFC]', 'rounded-3xl', 'p-10', 'space-y-3', 'w-full', 'lg:w-[90%]', 'flex-1'];
-        div.classList.add(...classes);
-        div.innerHTML = `
-        <div class="flex gap-8 flex-col lg:flex-row">
-            <div class="indicator">
-                <span class="indicator-item badge  ${element.isActive?"bg-green-500":"bg-red-500"}"></span>
-                <div class="grid w-20 h-20 bg-base-300 place-items-center"><img class="rounded-2xl" src="${element.image}" alt="AI Tool" /></div>
-            </div>
-            <div class="space-y-3">
-                <div class="flex gap-6">
-                    <p># ${element.category}</p>
-                    <p>Author : ${element.author.name}</p>
+        
+
+        setTimeout(() => {
+            const classes = ['border', 'hover:border-[#797DFC]', 'rounded-3xl', 'p-10', 'space-y-3', 'w-full', 'lg:w-[90%]', 'flex-1'];
+            div.classList.add(...classes);
+            div.innerHTML = `
+            <div class="flex gap-8 flex-col lg:flex-row">
+                <div class="indicator">
+                    <span class="indicator-item badge  ${element.isActive?"bg-green-500":"bg-red-500"}"></span>
+                    <div class="grid w-20 h-20 bg-base-300 place-items-center"><img class="rounded-2xl" src="${element.image}" alt="AI Tool" /></div>
                 </div>
-                <div>
-                    <h3 class="text-xl font-bold">${element.title}</h3>
-                </div>
-                <div>
-                    <p>It’s one thing to subject yourself to ha Halloween costume mishap because, hey that’s your
-                        prerogative</p>
-                </div>
-                <hr>
-                <div class="flex justify-between items-center">
-                    <div class="flex gap-5">
-                        <p><i class="fa-solid fa-envelope-open-text mr-2"></i>${element.comment_count}</p>
-                        <p><i class="fa-regular fa-eye mr-2"></i>${element.view_count}</p>
-                        <p><i class="fa-regular fa-clock mr-2"></i>${element.posted_time} min</p>
+                <div class="space-y-3">
+                    <div class="flex gap-6">
+                        <p># ${element.category}</p>
+                        <p>Author : ${element.author.name}</p>
                     </div>
                     <div>
-                    <button onclick="showDetails('${element.title}',${element.view_count})" class="w-8 h-8 bg-[#10B981] rounded-full"><i class="fa-solid fa-envelope text-white"></i></button>
+                        <h3 class="text-xl font-bold">${element.title}</h3>
+                    </div>
+                    <div>
+                        <p>It’s one thing to subject yourself to ha Halloween costume mishap because, hey that’s your
+                            prerogative</p>
+                    </div>
+                    <hr>
+                    <div class="flex justify-between items-center">
+                        <div class="flex gap-5">
+                            <p><i class="fa-solid fa-envelope-open-text mr-2"></i>${element.comment_count}</p>
+                            <p><i class="fa-regular fa-eye mr-2"></i>${element.view_count}</p>
+                            <p><i class="fa-regular fa-clock mr-2"></i>${element.posted_time} min</p>
+                        </div>
+                        <div>
+                        <button onclick="showDetails('${element.title.replace(/'/g,'')}',${element.view_count})" class="w-8 h-8 bg-[#10B981] rounded-full"><i class="fa-solid fa-envelope text-white"></i></button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        </div>
+            </div>
+            
+            `;
+        }, 2000);
+
         
-        `;
 
         discuss.appendChild(div);
     });
@@ -68,6 +79,7 @@ const handelShowDetails = (id) => {
 }
 
 const showDetails = async (title,view) => {
+    
     const readingContainer = document.getElementById("reading-container");
     // const readingContainer2 = document.getElementById("reading-container2");
     const countNumber = document.getElementById("count");
@@ -81,7 +93,7 @@ const showDetails = async (title,view) => {
 
         div.innerHTML = `
                 <p>${title}</p>
-                <p class="flex justify-center items-center"><i class="fa-regular fa-eye mr-1"></i>${view}</p>
+                <p class="flex justify-center items-center"><i class="fa-regular fa-eye mr-"></i>${view}</p>
         `;
 
         readingContainer.appendChild(div);
@@ -166,10 +178,17 @@ const toggleLoading =(isLoading)=>{
     
     if(isLoading)
     {
+        
+        // setTimeout(() => {
+        //     loadingSpinner.classList.remove('hidden');
+        // }, 2000);
+
         loadingSpinner.classList.remove('hidden');
         
         
     }else{
+        
+        // loadingSpinner.classList.add('hidden');
         setTimeout(() => {
             loadingSpinner.classList.add('hidden');
         }, 2000);
