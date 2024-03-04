@@ -43,9 +43,9 @@ const display = (allData) => {
                 <hr>
                 <div class="flex justify-between items-center">
                     <div class="flex gap-5">
-                        <p><i class="fa-solid fa-envelope-open-text mr-2"></i>560</p>
-                        <p><i class="fa-regular fa-eye mr-2"></i>1,568</p>
-                        <p><i class="fa-regular fa-clock mr-2"></i>5 min</p>
+                        <p><i class="fa-solid fa-envelope-open-text mr-2"></i>${element.comment_count}</p>
+                        <p><i class="fa-regular fa-eye mr-2"></i>${element.view_count}</p>
+                        <p><i class="fa-regular fa-clock mr-2"></i>${element.posted_time} min</p>
                     </div>
                     <div>
                     <button onclick="showDetails('${element.title}',${element.view_count})" class="w-8 h-8 bg-[#10B981] rounded-full"><i class="fa-solid fa-envelope text-white"></i></button>
@@ -67,21 +67,21 @@ const handelShowDetails = (id) => {
     console.log(id);
 }
 
-const showDetails = async (id,view) => {
+const showDetails = async (title,view) => {
     const readingContainer = document.getElementById("reading-container");
     // const readingContainer2 = document.getElementById("reading-container2");
     const countNumber = document.getElementById("count");
     // const countNumber2 = document.getElementById("count2");
 
-    const classes = ['flex', 'justify-between','mt-2'];
+    const classes = ['flex','gap-3', 'justify-between','mt-2','bg-white','p-5','rounded-xl'];
 
     const div = document.createElement("div");
 
         div.classList.add(...classes);
 
         div.innerHTML = `
-        <p>${id}</p>
-        <p>${view}</p>
+                <p>${title}</p>
+                <p class="flex justify-center items-center"><i class="fa-regular fa-eye mr-1"></i>${view}</p>
         `;
 
         readingContainer.appendChild(div);
@@ -112,7 +112,7 @@ const displayLatestPost = (allPost)=>{
     allPost.forEach(ele=>{
         const div = document.createElement("div");
 
-        const classes = ['card', 'bg-base-100', 'shadow-xl', 'p-6', 'border', 'border-black'];
+        const classes = ['card', 'bg-base-100', 'shadow-xl', 'p-6', 'border', 'border-[#858181]'];
         div.classList.add(...classes);
 
         div.innerHTML = `
